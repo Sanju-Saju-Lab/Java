@@ -1,110 +1,116 @@
 import java.util.Scanner;
 
-public class queue_array {  // Class name changed to queue_array
-    private static final int MAX_SIZE = 10; // Define maximum size
-    private int[] queue = new int[MAX_SIZE]; // Fixed-size array
-    private int front = 0;
-    private int rear = -1;
-    private int size = 0;
+class queue_array {
+    private static final int MAX_SIZE = 10; // Maximum size of the queue
+    private int[] queue = new int[MAX_SIZE]; // Array to store queue elements
+    private int front = -1; // Front of the queue, initialized to -1 (empty)
+    private int rear = -1; // Rear of the queue, initialized to -1 (empty)
 
-    // Enqueue operation
+    // Adds an element to the queue
     public void enqueue(int element) {
-        if (isFull()) {
+        if (isFull()) { // Check if the queue is full
             System.out.println("Queue is full. Cannot add element: " + element);
             return;
         }
-        rear = (rear + 1) % MAX_SIZE;
-        queue[rear] = element;
-        size++;
-        System.out.println("Enqueued: " + element);
+        if (front == -1 && rear == -1) { // If the queue is empty
+            front = 0; // Set front to 0
+            rear = 0; // Set rear to 0
+        } else {
+            rear++; // Move the rear pointer to the next position
+        }
+        queue[rear] = element; // Add the element to the queue
+        System.out.println("Enqueued: " + element); // Confirm the addition
     }
 
-    // Dequeue operation
+    // Removes and returns the front element from the queue
     public int dequeue() {
-        if (isEmpty()) {
+        if (isEmpty()) { // Check if the queue is empty
             System.out.println("Queue is empty. Cannot remove element.");
-            return -1;
+            return -1; // Return -1 if the queue is empty
         }
-        int element = queue[front];
-        front = (front + 1) % MAX_SIZE;
-        size--;
-        return element;
+        int element = queue[front]; // Get the front element
+        front++; // Move the front pointer to the next position
+        if (front > rear) { // If the queue becomes empty
+            front = -1; // Reset front
+            rear = -1; // Reset rear
+        }
+        return element; // Return the dequeued element
     }
 
-    // Peek operation
+    // Returns the front element without removing it
     public int peek() {
-        if (isEmpty()) {
-            System.out.println("Queue is empty.");
-            return -1;
+        if (isEmpty()) { // Check if the queue is empty
+            System.out.println("Queue is empty. Nothing to peek.");
+            return -1; // Return -1 if the queue is empty
         }
-        return queue[front];
+        return queue[front]; // Return the front element
     }
 
-    // Check if the queue is empty
+    // Checks if the queue is empty
     public boolean isEmpty() {
-        return size == 0;
+        return front == -1 && rear == -1; // Queue is empty if front and rear are both -1
     }
 
-    // Check if the queue is full
+    // Checks if the queue is full
     public boolean isFull() {
-        return size == MAX_SIZE;
+        return rear == MAX_SIZE - 1; // Queue is full if rear is at the last index
     }
 
-    // Display the queue
+    // Displays all elements in the queue
     public void display() {
-        if (isEmpty()) {
-            System.out.println("Queue is empty.");
+        if (isEmpty()) { // Check if the queue is empty
+            System.out.println("Queue is empty."); // Inform the user if it's empty
             return;
         }
-        System.out.print("Queue elements: ");
-        for (int i = 0; i < size; i++) {
-            System.out.print(queue[(front + i) % MAX_SIZE] + " ");
+        System.out.print("Queue elements: "); // Show the queue elements
+        for (int i = front; i <= rear; i++) { // Loop through all elements from front to rear
+            System.out.print(queue[i] + " "); // Print each element
         }
-        System.out.println();
+        System.out.println(); // Print a newline after displaying the elements
     }
 
-    // Main method
+    // Main method to interact with the user
     public static void main(String[] args) {
-        queue_array queue = new queue_array();
-        Scanner scanner = new Scanner(System.in);
+        queue_array queue = new queue_array(); // Create a new queue object
+        Scanner scanner = new Scanner(System.in); // Create a scanner for user input
 
-        while (true) {
-            System.out.println("\nChoose an operation:");
+        while (true) { // Infinite loop for user interaction
+            System.out.println("\nChoose an operation:"); // Display options
             System.out.println("1. Enqueue");
             System.out.println("2. Dequeue");
             System.out.println("3. Peek");
             System.out.println("4. Display");
             System.out.println("5. Exit");
             System.out.print("Your choice: ");
-            int choice = scanner.nextInt();
+            int choice = scanner.nextInt(); // Get the user's choice
 
             switch (choice) {
-                case 1:
+                case 1: // Enqueue operation
                     System.out.print("Enter element to enqueue: ");
-                    int element = scanner.nextInt();
-                    queue.enqueue(element);
+                    int element = scanner.nextInt(); // Get the element to add
+                    queue.enqueue(element); // Call the enqueue method
                     break;
-                case 2:
-                    int dequeuedElement = queue.dequeue();
+                case 2: // Dequeue operation
+                    int dequeuedElement = queue.dequeue(); // Remove an element from the front
                     if (dequeuedElement != -1) {
-                        System.out.println("Dequeued: " + dequeuedElement);
+                        System.out.println("Dequeued: " + dequeuedElement); // Confirm the removal
                     }
                     break;
-                case 3:
-                    int peekElement = queue.peek();
-                    if (peekElement != -1) {
-                        System.out.println("Front element: " + peekElement);
+                case 3: // Peek operation
+                    int peekedElement = queue.peek(); // Get the front element without removing it
+                    if (peekedElement != -1) {
+                        System.out.println("Front element: " + peekedElement); // Display the front element
                     }
                     break;
-                case 4:
-                    queue.display();
+                case 4: // Display operation
+                    queue.display(); // Display the queue elements
                     break;
-                case 5:
-                    System.out.println("Exiting program. Goodbye!");
-                    scanner.close();
-                    return;
-                default:
-                    System.out.println("Invalid choice. Please try again.");
+                case 5: // Exit operation
+                    System.out.println("Exiting program. Goodbye!"); // Exit the program
+                    scanner.close(); // Close the scanner
+                    return; // Exit the loop and the program
+                default: // Invalid choice
+                    System.out.println("Invalid choice. Please try again."); // Prompt the user to try again
             }
         }
     }
