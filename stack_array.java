@@ -1,15 +1,14 @@
 import java.util.Scanner;
 
-class Stack {
+class StackArray {
+    private static final int MAX_SIZE = 10; // Fixed size of the stack
     private int[] stack;
     private int top;
-    private int capacity;
 
     // Constructor to initialize the stack
-    public Stack(int size) {
-        stack = new int[size];
-        top = -1;
-        capacity = size;
+    public StackArray() {
+        stack = new int[MAX_SIZE];  // Initialize stack with a fixed size
+        top = -1;  // Indicating that the stack is empty
     }
 
     // Push operation
@@ -49,7 +48,7 @@ class Stack {
 
     // Check if the stack is full
     public boolean isFull() {
-        return top == capacity - 1;
+        return top == MAX_SIZE - 1;
     }
 
     // Display the stack
@@ -70,10 +69,7 @@ public class stack_array {
     public static void main(String[] args) {
         Scanner scanner = new Scanner(System.in);
 
-        System.out.print("Enter the size of the stack: ");
-        int size = scanner.nextInt();
-
-        Stack stack = new Stack(size);
+        StackArray stack = new StackArray();  // Create stack with fixed size
 
         while (true) {
             System.out.println("\nChoose an operation:");
