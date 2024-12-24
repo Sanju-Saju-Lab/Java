@@ -1,6 +1,6 @@
 import java.util.Scanner;
 
-class QueueArray {
+public class queue_array {  // Class name changed to queue_array
     private static final int MAX_SIZE = 10; // Define maximum size
     private int[] queue = new int[MAX_SIZE]; // Fixed-size array
     private int front = 0;
@@ -63,8 +63,9 @@ class QueueArray {
         System.out.println();
     }
 
-    public static void queue_array(String[] args) {
-        QueueArray queue = new QueueArray();
+    // Main method
+    public static void main(String[] args) {
+        queue_array queue = new queue_array();
         Scanner scanner = new Scanner(System.in);
 
         while (true) {
